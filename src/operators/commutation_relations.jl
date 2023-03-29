@@ -36,3 +36,23 @@ function reductive_commutator(e::SingletExcitationOperator, a::FermionOperator)
         -δ(p, r) * fermion(q, a.spin)
     end)
 end
+
+function reductive_commutator(Q1::SingletPairOperator, a1::FermionOperator)
+    p = Q1.p
+    q = Q1.q
+    r = a1.p
+    σ = a1.spin
+
+    if σ == α
+        τ = β
+    else
+        τ = α
+    end
+
+    (1, !(Q1.dagger == a1.dag) * if a1.dag
+        δ(p, r) * fermion(q, τ) + δ(q, r) * fermion(p, τ)
+    else
+        -δ(p, r) * fermiondag(q, τ) - δ(q, r) * fermiondag(p, τ)
+    end)
+
+end
